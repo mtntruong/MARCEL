@@ -46,7 +46,7 @@ class Config:
     patience: int = 200
     activation: str = 'relu'
     seed: int = 123
-    device: str = 'cuda:5'
+    device: str = 'cuda:0'
     dropout: float = 0.5
 
     scheduler: str = None

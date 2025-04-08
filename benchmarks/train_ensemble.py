@@ -24,6 +24,7 @@ from models.models_3d.gemnet import GemNetT
 from models.models_3d.dimenet import DimeNetPlusPlus
 from models.models_3d.clofnet import ClofNet
 from models.models_3d.leftnet import LEFTNet
+from models.models_3d.visnet import ViSNet
 from models.model_4d import Model4D, SumPooling, MeanPooling, TransformerPooling, DeepSets, SelfAttentionPooling
 
 
@@ -131,6 +132,8 @@ if __name__ == '__main__':
         graph_model_factory = lambda: ClofNet(max_atomic_num=max_atomic_num, **asdict(config.model4d.clofnet))
     elif config.model4d.graph_encoder == 'LEFTNet':
         graph_model_factory = lambda: LEFTNet(max_atomic_num=max_atomic_num, **asdict(config.model4d.clofnet))
+    elif config.model4d.graph_encoder == 'ViSNet':
+        graph_model_factory = lambda: ViSNet(**asdict(config.model4d.visnet))
 
     if config.model4d.set_encoder == 'Sum':
         set_model_factory = lambda: SumPooling()

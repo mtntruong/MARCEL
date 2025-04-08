@@ -62,6 +62,12 @@ class ClofNet:
 
 
 @dataclass
+class ViSNet:
+    device: str = 'cuda:0'
+    hidden_channels: int = 256
+
+
+@dataclass
 class LEFTNet:
     cutoff: int = 6.5
     num_layers: int = 6
