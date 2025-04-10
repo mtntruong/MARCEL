@@ -1,5 +1,6 @@
 import os
 import torch
+import shutil
 import torch.nn.functional as F
 
 from dataclasses import asdict
@@ -68,9 +69,13 @@ def eval(dataset, loader):
 
 
 if __name__ == '__main__':
-    writer = SummaryWriter()
     loader = ConfigLoader(model=Config, config='params/params_4d.json')
     config = loader()
+
+    global_name = config.dataset+'-'+config.model4d.set_encoder+'-'+config.model4d.graph_encoder+'-'+config.target
+    shutil.rmtree('./runs/' + global_name, ignore_errors=True)
+    os.makedirs('./runs/' + global_name, exist_ok=True)
+    writer = SummaryWriter(log_dir='./runs/' + global_name)
 
     variable_name = None
     unique_variables = 1
@@ -166,7 +171,7 @@ if __name__ == '__main__':
     else:
         scheduler = None
 
-    checkpoint_path = generate_checkpoint_filename()
+    checkpoint_path = 'checkpoint_' + global_name + '.pt'
     early_stopping = EarlyStopping(patience=config.patience, path=checkpoint_path)
     print(f'Checkpoint path: {checkpoint_path}')
 
@@ -203,5 +208,5 @@ if __name__ == '__main__':
     print(f'Best validation error: {-early_stopping.best_score:.7f}')
     print(f'Test error: {test_error:.7f}')
 
-    os.remove(checkpoint_path)
+    #os.remove(checkpoint_path)
     writer.close()
